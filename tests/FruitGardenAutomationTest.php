@@ -41,7 +41,7 @@ final class FruitGardenAutomationTest extends TestCase
         $result = $automation->runAutomation();
 
         // Check that the results are numbers
-        $this->assertIsNumeric($result['totalTime']);
+        $this->assertIsString($result['totalTimeForAllProcessesInHours']);
         $this->assertIsNumeric($result['totalJuiceProduced']);
     }
 }

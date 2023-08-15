@@ -54,9 +54,9 @@ final class FruitAutomationConsole
 
         $result = $automation->runAutomation();
 
-        self::writeConsole("Total time: " . ($result['totalTime'] / 60) . " hours");
-        self::writeConsole("Total time of fruit picking: " . $result['harvestingTime'] . " minutes.");
-        self::writeConsole("Total time of fruit sortTime: " . $result['sortTime'] . " minutes.");
+        self::writeConsole("Total time: " . $result['totalTimeForAllProcessesInHours'] . " hours");
+        self::writeConsole("Total time of fruit picking: " . $result['totalHarvestingTime'] . " minutes.");
+        self::writeConsole("Total time of fruit sortTime: " . $result['totalSortTime'] . " minutes.");
         self::writeConsole("Total juice produced: " . $result['totalJuiceProduced'] . " units");
     }
 

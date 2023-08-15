@@ -43,29 +43,38 @@ final class FruitAutomationService
     public function runAutomation(): array
     {
         $totalJuiceProduced = 0;
-        $harvestingTime = 0;
-        $totalTime = 0;
-        $sortTime = 0;
+        $totalTimeInMinutes = 0;
+        $totalHarvestingTimeInMinutes = 0;
+        $totalSortTimeInMinutes = 0;
 
         foreach ($this->fruits as $fruit) {
-            $ripeningTime = $fruit->getRipeningTime();
-            $harvestingTime = $fruit->getHarvestingTime();
-            $fruitAmount = $this->resources / $harvestingTime;
+            $timeForRipening = $fruit->getRipeningTime() * 24 * 60; // Converting days to minutes
+            $timeForHarvesting = $fruit->getHarvestingTime();
+            $timeForTransport = $this->transportTime;
+            $timeForSorting = $this->sortingTime;
+            $timeForProduction = $this->juiceProductionTime;
 
-            // Simulate waiting
-            sleep(1);
+            $timeForOneFruit = $timeForRipening + $timeForHarvesting + $timeForTransport + $timeForSorting + $timeForProduction;
 
-            $this->collectFruits($fruit->getName(), $fruitAmount);
-            $this->transportFruits($fruit->getName(), $fruitAmount);
-            $this->sortFruits($fruit->getName(), $fruitAmount);
-            $this->produceJuice($fruit->getName(), $fruitAmount);
-            $harvestingTime += $harvestingTime;
-            $sortTime += $this->sortingTime;
-            $totalJuiceProduced += $fruitAmount;
-            $totalTime += $ripeningTime + $harvestingTime + $this->transportTime + $this->sortingTime + $this->juiceProductionTime;
+            $totalTimeInMinutes += $timeForOneFruit * $this->resources;
+            $totalHarvestingTimeInMinutes += $timeForHarvesting * $this->resources;
+            $totalSortTimeInMinutes += $timeForSorting * $this->resources;
+
+            $this->collectFruits($fruit->getName(), $this->resources);
+            $this->transportFruits($fruit->getName(), $this->resources);
+            $this->sortFruits($fruit->getName(), $this->resources);
+            $this->produceJuice($fruit->getName(), $this->resources);
+
+            $totalJuiceProduced += $this->resources;
         }
 
-        return compact('totalTime', 'totalJuiceProduced', 'sortTime', 'harvestingTime');
+        // Converting to Hours
+        $totalTimeForAllProcessesInHours = number_format($totalTimeInMinutes / 60, 2);
+
+        $totalHarvestingTime = $totalHarvestingTimeInMinutes;
+        $totalSortTime = $totalSortTimeInMinutes;
+
+        return compact('totalTimeForAllProcessesInHours', 'totalHarvestingTime', 'totalSortTime', 'totalJuiceProduced');
     }
 
     /**
