@@ -1,4 +1,4 @@
-## Caps groups test
+> Terms of reference for a program for fruit picking and juice production
 
 How to use with Docker:
 =========================
@@ -35,4 +35,3 @@ Local:
 php vendor/bin/phpunit
 ```
 
-# caps-groups

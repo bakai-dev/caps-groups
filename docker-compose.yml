@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  php:
+    working_dir: /var/www/html
+    build:
+      context: ./
+      dockerfile: docker/php-cli.dockerfile
+    volumes:
+      - .:/var/www/html
+
